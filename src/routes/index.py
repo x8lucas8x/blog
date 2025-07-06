@@ -126,5 +126,5 @@ routes_for_index = [
     Route('/menu/', get_menu, name="menu_detail"),
     Route('/search/', get_search, name="search_detail"),
     Route('/search/index.json', get_search_index, name="search_index_detail"),
-    Route('/pages/{page:int}', get_index, name="index_list_by_page"),
+    Route('/pages/{page:int}/', get_index, name="index_list_by_page"),
 ]

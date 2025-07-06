@@ -43,16 +43,16 @@ def output_paths() -> Generator[tuple[str, str], None, None]:
         yield str(url)
 
     for url in chain(
-        [app.url_path_for("index_list_by_page", page=page) for page in range(1, data.num_pages["index"])],
+        [app.url_path_for("index_list_by_page", page=page) for page in range(1, data.num_pages["index"] + 1)],
         [
             app.url_path_for("category_detail_by_page", category=category, page=page)
             for category in data.articles_by_category.keys()
-            for page in range(1, data.num_pages["category"][category])
+            for page in range(1, data.num_pages["category"][category] + 1)
         ],
         [
             app.url_path_for("tag_detail_by_page", tag=tag, page=page)
             for tag in data.articles_by_tag.keys()
-            for page in range(1, data.num_pages["tag"][tag])
+            for page in range(1, data.num_pages["tag"][tag] + 1)
         ],
         [app.url_path_for("article_detail", slug=slug) for slug in data.articles_by_slug.keys()],
         [app.url_path_for("article_share_detail", slug=slug) for slug in data.articles_by_slug.keys()],
