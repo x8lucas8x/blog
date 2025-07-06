@@ -53,7 +53,7 @@ async def get_article(request: Request) -> templates.TemplateResponse:
                     "datePublished": article.created_date.isoformat(),
                     "dateModified": article.last_modified.isoformat(),
                     "image": [
-                        article.social_media_path(request)
+                        article.social_media_absolute_url(request)
                     ],
                     "author": [
                         {

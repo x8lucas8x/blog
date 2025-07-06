@@ -54,8 +54,8 @@ class Item:
     def last_modified(self) -> datetime:
         return self.updated_date if self.updated_date else self.created_date
 
-    def social_media_path(self, request: Request) -> str:
-        return request.url_for("static", path=f"/social_media/{self.slug}.png").path
+    def social_media_absolute_url(self, request: Request) -> str:
+        return str(request.url_for("static", path=f"/social_media/{self.slug}.png"))
 
 
 @dataclass

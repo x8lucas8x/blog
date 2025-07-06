@@ -23,12 +23,12 @@
     <meta property="og:title" content="{{ article.title }}" />
     <meta property="og:description" content="{{ article.summary }}" />
     <meta property="og:type" content="article" />
-    <meta property="og:image" content="{{ article.social_media_path(request) }}" />
+    <meta property="og:image" content="{{ article.social_media_absolute_url(request) }}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content="Lucas Lira Gomes" />
     <meta name="twitter:title" content="{{ article.title }}" />
     <meta name="twitter:description" content="{{ article.summary }}" />
-    <meta name="twitter:image" content="{{ article.social_media_path(request) }}" />
+    <meta name="twitter:image" content="{{ article.social_media_absolute_url(request) }}" />
   {% endblock %}
 
   <style>
