@@ -1,0 +1,7 @@
+{% extends "index.html.jinja" %}
+
+{% block title %}{{ SITE_NAME | striptags }} - {{ directory_title }}{% endblock %}
+
+{% block content_title %}
+<h2 style="view-transition-name: directory-header;">{{ directory_title }}</h2>
+{% endblock %}

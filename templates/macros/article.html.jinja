@@ -1,0 +1,13 @@
+{% macro article_hgroup(article, request) %}
+    <hgroup style="margin-bottom: 0px;view-transition-name: article-header-{{ article.slug }};">
+        <h2>
+          <a href="{{ article.path(request) }}" rel="bookmark" title="Permalink to {{ article.title | striptags }}">{{ article.title }}</a>
+        </h2>
+        <p>
+          <small>
+            <time style="margin-bottom: 0px;display: inline;" datetime="{{ article.created_date.isoformat() }}">{{ article.created_date.strftime('%B %d, %Y, %H:%M:%S') }}</time>
+            - {{ ((article.content | wordcount) // 250) or 1 }} minutes to read
+          </small>
+        </p>
+    </hgroup>
+{% endmacro %}

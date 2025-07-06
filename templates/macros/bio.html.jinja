@@ -1,0 +1,13 @@
+{% macro bio(author, request) %}
+  <div class="bio-container">
+    <div>
+      <img class="image-process-thumbnail round" src="{{ author.avatar_path(request) }}" alt="Avatar of {{ author.name }}" width="64px" height="64px" />
+    </div>
+    <div>
+      Written by <strong>{{ author.name }}</strong>. You should follow him on 
+      <a href="https://twitter.com/x8lucas8x">Twitter</a>, 
+      <a href="https://github.com/x8lucas8x">GitHub</a>, 
+      and <a href="https://linkedin.com/in/x8lucas8x">LinkedIn</a>.
+    </div>
+  </div>
+{% endmacro %}

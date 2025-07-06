@@ -1,0 +1,14 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}{{ SITE_NAME | striptags }} - Archives{% endblock %}
+
+{% block content %}
+<h2>Archives for {{ SITE_NAME }}</h2>
+
+<dl>
+{% for article in dates %}
+    <dt>{{ article.locale_date }}</dt>
+    <dd><a href="{{ article.path(request) }}">{{ article.title }}</a></dd>
+{% endfor %}
+</dl>
+{% endblock %}

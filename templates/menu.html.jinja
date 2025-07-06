@@ -1,0 +1,35 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}{{ SITE_NAME | striptags }} - Menu{% endblock %}
+
+{% block hamburger_button %}
+<a
+  class="menu-icon"
+  href="javascript:if(window.history.length > 1 && document.referrer.indexOf(window.location.host) !== -1){history.back();}else{window.location='/';}"
+  title="Exit the menu"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+  </svg>  
+</a>
+{% endblock hamburger_button %}
+
+{% block content %}
+    <nav class="vertical">
+      <h3>Blog</h3>
+      <ul class="vertical">
+        <li class="column-3"><a href="{{ url_for('search_detail') }}">Search</a><small>{{ url_for('search_detail').path }}</small></li>
+        <li class="column-3"><a href="{{ url_for('category_list') }}">Categories</a><small>{{ url_for('category_list').path }}</small></li>
+        <li class="column-3"><a href="{{ url_for('tag_list') }}">Tags</a><small>{{ url_for('tag_list').path }}</small></li>
+      </ul>
+    </nav>
+    <hr/>
+    <nav class="vertical">
+      <h3>Subscribe</h3>
+      <ul class="vertical">
+        <li class="column-3"><a href="{{ url_for('all_rss_feed') }}">RSS</a><small>{{ url_for('all_rss_feed').path }}</small></li>
+        <li class="column-3"><a href="{{ url_for('all_atom_feed') }}">Atom</a><small>{{ url_for('all_atom_feed').path }}</small></li>
+      </ul>
+    </nav>
+    <hr/>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% if paginator.num_pages > 0 %}
+  <nav class="pagination">
+    <ul>
+      {% if paginator.has_prev_page %}
+          <li><a href="{{ paginator.first_page_path(request) }}">&Lang; First</a></li>
+          <li><a href="{{ paginator.prev_page_path(request) }}">&lang; Previous</a></li>
+      {% endif %}
+      <li>Page {{ paginator.current_page }} / {{ paginator.num_pages }}</li>
+      {% if paginator.has_next_page %}
+          <li><a href="{{ paginator.next_page_path(request) }}">&rang; Next</a></li>
+          <li><a href="{{ paginator.last_page_path(request) }}">&Rang; Last</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

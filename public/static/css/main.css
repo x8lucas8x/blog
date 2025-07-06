@@ -1,0 +1,121 @@
+@view-transition {
+  navigation: auto;
+}
+
+:root {
+  border-color: var(--pico-primary);
+  border-style: solid;
+  border-width: 8px 0 0;
+}
+
+body {
+  place-self: center;
+  width: min(100%, 70ch);
+}
+
+main {
+  min-height: 50vh;
+}
+
+time {
+    font-size: 0.83255rem; line-height: 1.75rem; display: block;
+}
+
+blockquote {
+  font-style: italic;
+}
+
+blockquote > p {
+  font-size: inherit;
+}
+
+blockquote > p:last-child {
+  margin-bottom: 0;
+}
+
+header > hgroup > h1 {
+  --pico-font-size: 3rem;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+article > main {
+  text-align: justify;
+}
+
+
+.pagination {
+  place-content: center;
+}
+
+.bio-container {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  grid-gap: 20px;
+  place-items: center;
+}
+
+.round {
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+.sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0); 
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap; 
+    width: 1px;
+  }
+
+.menu-icon {
+  width: 2.65em;
+  color: var(--pico-primary);
+}
+
+.float-icon {
+  width: 4.65em;
+  color: var(--pico-primary-inverse);
+}
+
+.vertical {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.column-3 {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+.column-title {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+}
+
+#back-to-top-button {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  padding: 15px;
+  border-radius: 4px;
+}

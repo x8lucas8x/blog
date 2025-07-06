@@ -1,0 +1,14 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}{{ SITE_NAME | striptags }} - {{ period | reverse | join(' ') }} archives{% endblock %}
+
+{% block content %}
+<h2>Archives for {{ period | reverse | join(' ') }}</h2>
+
+<dl>
+{% for article in dates %}
+    <dt>{{ article.locale_date }}</dt>
+    <dd><a href="{{ article.path(request) }}">{{ article.title }}</a></dd>
+{% endfor %}
+</dl>
+{% endblock %}

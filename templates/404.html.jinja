@@ -1,0 +1,19 @@
+{% extends "base.html.jinja" %}
+
+{% block content %}
+  {% block content_title %}
+    <h2 class="sr-only">Page not found</h2>
+  {% endblock %}
+
+  <article>
+      <header> 
+          <hgroup style="margin-bottom: 0px;">
+              <h1>404</h1>
+              <h2>Page not found</h2>
+          </hgroup>
+      </header>
+      <section>
+        <h3><a href="{{ url_for('index_list') }}" rel="bookmark" title="Permalink to {{ SITE_NAME }}">Back to home</a></h3>
+      </section>
+  </article>
+{% endblock content %}

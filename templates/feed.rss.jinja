@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>{{ title }}</title>
+    <link>{{ url }}</link>
+    <description>{{ description }}</description>
+    <copyright>{{ COPYRIGHT }}</copyright>
+    <pubDate>{{ articles[0].created_date.isoformat() }}</pubDate>
+    <image>
+      <url>{{ SITE_URL }}/static/assets/icon.svg</url>
+    </image>
+    {% for article in articles %}
+      <item>
+        <title>{{ article.title | striptags }}</title>
+        <description>{{ article.summary | markdown }}</description>
+        <link>{{ article.absolute_url(request) }}</link>
+        <author>{{ article.authors[0].name }}</author>
+        <guid>{{ article.absolute_url(request) }}</guid>
+        <pubDate>{{ article.created_date.isoformat() }}</pubDate>
+      </item>
+    {% endfor %}
+  </channel>
+</rss>

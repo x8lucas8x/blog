@@ -1,0 +1,14 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}{{ SITE_NAME | striptags }} - {{ directory_title }}{% endblock %}
+
+{% block content %}
+    {% block content_title %}
+        <h2 style="view-transition-name: directory-header;">{{ directory_title }}</h2>
+    {% endblock %}
+    <ul>
+    {% for directory, articles in directories | sort %}
+        <li><a href="{{ directory.path(request) }}">{{ directory.alias | title }}</a> ({{ articles | count }})</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

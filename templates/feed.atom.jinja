@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <name>{{ AUTHOR }}</name>
+    <uri>{{ SITE_URL }}</uri>
+  </author>
+  <title>{{ title }}</title>
+  <subtitle>{{ description }}</subtitle>
+  <id>{{ url }}</id>
+  <updated>{{ articles[0].last_modified.isoformat() }}</updated>
+  <rights>{{ COPYRIGHT }}</rights>
+  <icon>{{ SITE_URL }}/static/assets/icon.svg</icon>
+  {% for article in articles %}
+    <entry>
+      <title>{{ article.title | striptags }}</title>
+      <link href="{{ article.absolute_url(request) }}"/>
+      <id>{{ article.absolute_url(request) }}</id>
+      <updated>{{ article.last_modified.isoformat() }}</updated>
+      <summary>{{ article.summary | markdown }}</summary>
+      <author>
+        <name>{{ AUTHOR }}</name>
+      </author>
+    </entry>
+  {% endfor %}
+</feed>

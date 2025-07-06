@@ -1,0 +1,139 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}{{ SITE_NAME | striptags }} - Search{% endblock %}
+
+{% block content %}
+  <input type="search" autoComplete="none" autoCorrect="none" autoCapitalize="none" spellCheck="false" disabled placeholder="Indexing..."/>
+  <section id="options"></section>
+  <section id="options-footer"></section>
+
+  <template id="notFoundTemplate">
+    <article>
+          <header> 
+              <hgroup">
+                  <h2>No article found</h2>
+              </hgroup>
+              </header>
+          <section>
+              There are {{ num_documents }} articles!
+          </section>
+        </article>
+  </template>
+
+  <template id="showMoreButtonTemplate">
+    <button class="w-100">
+      Show more
+    </button>
+  </template>
+
+  <script src="{{ url_for('static', path='/js/minisearch.js') }}"></script>
+  <script>
+
+    const miniSearch = new MiniSearch({
+      fields: ['title', 'summary', 'category', 'tags', 'quote'], // fields to index for full-text search
+      storeFields: ['title', 'summary', 'url'], // fields to return with search results
+      searchOptions: {
+        boost: { title: 2 },
+        fuzzy: 0.2,
+        prefix: true,
+      },
+    });
+
+    const searchInput = document.querySelector('input[type="search"]');
+
+    fetch("{{ url_for('search_index_detail') }}")
+      .then(response => response.json())
+      .then((allDocuments) => {
+        // Index all documents
+        return miniSearch.addAll(allDocuments);
+      }).then(() => {
+        searchInput.removeAttribute("disabled");
+        searchInput.setAttribute("placeholder", "Type to search...");
+
+        if (searchInput.value) {
+          renderSearchResults(searchInput.value);
+        }
+      });
+
+    const notFoundArticleTemplate = document.querySelector('#notFoundTemplate');
+    const showMoreButtonTemplate = document.querySelector('#showMoreButtonTemplate');
+    const options = document.querySelector('#options');
+    const optionsFooter = document.querySelector('#options-footer');
+
+    const updateSearchQueryParam = (query) => {
+      const url = new URL(window.location);
+      url.searchParams.set("q", query)
+      history.pushState(null, '', url);
+    };
+
+    searchInput.value = new URL(window.location).searchParams.get("q");
+
+    const renderResultNodes = (results, totalResultsFound) => {
+        options.innerHTML = [
+          `<article>
+            Found ${totalResultsFound} articles for term "${searchInput.value}".
+          </article>`,
+          ...results.map(({ id, title, summary, url }) => {
+            return `<article>
+              <header> 
+                <hgroup style="margin-bottom: 0px;view-transition-name: article-header-${id};">
+                  <h2><a href="${url}" rel="bookmark" title="Permalink to ${title}">${title}</a></h2>
+                </hgroup>
+              </header>
+              <section>
+                  ${summary}
+              </section>
+            </article>`;
+          }),
+      ].join('\n');
+    };
+
+    const renderSearchResults = () => {
+      const query = searchInput.value;
+
+      if (query.length < 2) {
+        updateSearchQueryParam("");
+        options.replaceChildren();
+        optionsFooter.replaceChildren();
+        return;
+      }
+
+      updateSearchQueryParam(query);
+
+      let results = miniSearch.search(query);
+      let totalResultsFound = results.length;
+      let hiddenResults = [];
+
+      if (results.length == 0) {
+          let notFoundArticle = notFoundArticleTemplate.content.cloneNode(true);
+          notFoundArticle.querySelector('h2').textContent = `No article found for term "${query}"`;
+          options.replaceChildren(notFoundArticle);
+          return;
+      }
+
+      if (results.length >= {{ MAX_SEARCH_RESULTS }}) {
+        hiddenResults = [...results.slice({{ MAX_SEARCH_RESULTS }})];
+        results = [...results.slice(0, {{ MAX_SEARCH_RESULTS }})];
+        const showMoreButton = showMoreButtonTemplate.content.cloneNode(true).querySelector('button');
+        showMoreButton.addEventListener('click', () => {
+          let hiddenResultsToShow = hiddenResults.slice(0, {{ MAX_SEARCH_RESULTS }});
+          results = [...results, ...hiddenResultsToShow];
+          hiddenResults = [...hiddenResults.slice({{ MAX_SEARCH_RESULTS }})];
+
+          if (hiddenResults.length == 0) {
+            showMoreButton.setAttribute("disabled", true);
+          }
+
+          renderResultNodes(results, totalResultsFound);
+        });
+
+        optionsFooter.replaceChildren(showMoreButton);
+      }
+
+      renderResultNodes(results, totalResultsFound);
+    };
+
+    searchInput.addEventListener('search', renderSearchResults);
+    searchInput.addEventListener('keyup', renderSearchResults);
+  </script>
+{% endblock %}

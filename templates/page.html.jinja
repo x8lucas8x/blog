@@ -1,0 +1,33 @@
+{% extends "base.html.jinja" %}
+{% block html_lang %}{{ page.lang }}{% endblock %}
+
+{% block title %}{{ SITE_NAME | striptags }} - {{ page.title| striptags }}{%endblock%}
+
+{% block head %}
+  {{ super() }}
+
+  {% import 'macros/translations.html.jinja' as translations with context %}
+  {% if translations.entry_hreflang(page) %}
+    {{ translations.entry_hreflang(page) }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<article>
+  <header>
+    <h2>{{ page.title }}</h2>
+  </header>
+    {% import 'macros/translations.html.jinja' as translations with context %}
+    {{ translations.translations_for(page) }}
+
+    {{ page.content }}
+
+    {% if page.modified %}
+      <footer>
+        <p>
+        Last updated: {{ page.locale_modified }}
+        </p>
+      </footer>
+    {% endif %}
+</article>
+{% endblock %}

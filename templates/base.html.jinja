@@ -1,0 +1,129 @@
+{% set title %}{% block title %}{{ SITE_NAME | striptags }}{% endblock %}{% endset %}
+<!DOCTYPE html>
+<html lang="{% block html_lang %}{{ DEFAULT_LANG }}{% endblock html_lang %}">
+<head>
+  {% block head %}
+    <title>{{ title }}</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="x8lucas8x" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if SITE_DESCRIPTION %}
+    <meta name="description" content="{{ SITE_DESCRIPTION }}" />
+    {% endif %}
+    <link rel="icon" href="{{ url_for('static', path='/icons/icon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', path='/icons/icon-32x32.png') }}" type="image/png" sizes="32x32">
+    <link rel="icon" href="{{ url_for('static', path='/icons/icon-192x192.png') }}" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{ url_for('static', path='/icons/icon-180x180.png') }}" sizes="180x180">
+    <link rel="icon" href="{{ url_for('static', path='/icons/icon.svg') }}" type="image/svg+xml">
+    <link rel="manifest" href="{{ url_for('manifest_detail') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/pico.classless.red.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/main.css') }}" />
+    <link href="{{ url_for('all_atom_feed') }}" type="application/atom+xml" rel="alternate" title="{{ SITE_NAME | striptags }} Full ATOM feed" />
+    <link href="{{ url_for('all_rss_feed') }}" type="application/rss+xml" rel="alternate" title="{{ SITE_NAME | striptags }} Full RSS feed" />
+
+    {% if category %}
+    <link href="{{ url_for('category_atom_feed', category=category) }}" type="application/atom+xml" rel="alternate" title="{{ SITE_NAME | striptags }} ATOM feed for category {{ category }}" />
+    <link href="{{ url_for('category_rss_feed', category=category) }}" type="application/rss+xml" rel="alternate" title="{{ SITE_NAME | striptags }} RSS Feed for category {{ category }}" />
+    {% endif %}
+   
+    {% if tag %}
+    <link href="{{ url_for('tag_atom_feed', tag=tag) }}" type="application/atom+xml" rel="alternate" title="{{ SITE_NAME | striptags }} Tag {{ tag }} ATOM Feed for tag {{ tag }}" />
+    <link href="{{ url_for('tag_rss_feed', tag=tag) }}" type="application/rss+xml" rel="alternate" title="{{ SITE_NAME | striptags }} Tag {{ tag }} RSS Feed for tag {{ tag }}" />
+    {% endif %}
+  {% endblock head %}
+  {% block social_meta %}
+    <meta property="og:title" content="{{ title }}" />
+    <meta property="og:description" content="{{ SITE_DESCRIPTION }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ url_for('static', path='/social_media/default.png') }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="{{ AUTHOR }}" />
+    <meta name="twitter:title" content="{{ title }}" />
+    <meta name="twitter:description" content="{{ SITE_DESCRIPTION }}" />
+    <meta name="twitter:image" content="{{ url_for('static', path='/social_media/default.png') }}" />
+  {% endblock social_meta %}
+</head>
+
+<body>
+  <header>
+    <hgroup class="column-title">
+      <h1><a href="{{ SITE_URL }}/">{{ SITE_NAME }}</a></h1>
+      {% if SITE_SUBTITLE %}<p>{{ SITE_SUBTITLE }}</p>{% endif %}
+      <a class="menu-icon" href="{{ url_for('search_detail') }}" title="Permalink to search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+      </a>
+      {% block hamburger_button %}
+      <a class="menu-icon" href="{{ url_for('menu_detail') }}" title="Permalink to menu">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>        
+      </a>
+      {% endblock hamburger_button %}
+    </hgroup>
+    <nav><ul>
+    {% for title, link in MENU_ITEMS %}
+        <li><a href="{{ link }}">{{ title }}</a></li>
+    {% endfor %}
+    {% if DISPLAY_PAGES_ON_MENU %}
+      {% for p in pages %}
+        <li><a href="{{ p.path(request) }}" {% if p==page %} aria-current="page" {% endif %}>{{ p.title }}</a></li>
+      {% endfor %}
+    {% endif %}
+    {% if DISPLAY_CATEGORIES_ON_MENU %}
+      {% for category in categories %}
+        <li><a href="{{ category.path(request) }}" {% if category==category %} aria-current="page" {% endif %}>{{ category }}</a></li>
+      {% endfor %}
+    {% endif %}
+    </ul></nav>
+  </header>
+  <main>
+    {% block content %}
+    {% endblock content %}
+    <button class="float-icon" onclick="topFunction()" id="back-to-top-button" title="Go to top">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+      </svg>
+      <span>Go to top</span>
+    </button>
+  </main>
+  <footer>
+    {% for paragraph in COPYRIGHT %}
+      <div style="text-align: center;">
+        <small>{{ paragraph }}</small>
+      </div>
+    {% endfor %}
+  </footer>
+  <script>
+    if (typeof navigator.serviceWorker !== "undefined") {
+      navigator.serviceWorker.register("{{ url_for('static', path='/js/serviceworker.js') }}")
+    }
+  </script>
+  <script>
+    let backToTopButton = document.getElementById("back-to-top-button");
+
+    // When the user scrolls down 600px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+        backToTopButton.style.display = "block";
+      } else {
+        backToTopButton.style.display = "none";
+      }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+  {% if json_ld %}
+  <script type="application/ld+json">
+    {{ json_ld }}
+  </script>
+  {% endif %}
+</body>
+</html>

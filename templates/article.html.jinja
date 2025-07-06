@@ -1,0 +1,139 @@
+{% extends "base.html.jinja" %}
+{% block html_lang %}{{ article.lang }}{% endblock %}
+
+{% block title %}{{ SITE_NAME | striptags }} - {{ article.title| striptags  }}{% endblock %}
+
+{% block head %}
+  {{ super() }}
+
+  {% import 'macros/translations.html.jinja' as translations with context %}
+  {% if translations.entry_hreflang(article) %}
+    {{ translations.entry_hreflang(article) }}
+  {% endif %}
+
+  {% if article.description %}
+    <meta name="description" content="{{ article.description }}" />
+  {% endif %}
+
+  {% for tag in article.tags %}
+    <meta name="tags" content="{{ tag }}" />
+  {% endfor %}
+
+  {% block social_meta %}
+    <meta property="og:title" content="{{ article.title }}" />
+    <meta property="og:description" content="{{ article.summary }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="{{ article.social_media_path(request) }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="Lucas Lira Gomes" />
+    <meta name="twitter:title" content="{{ article.title }}" />
+    <meta name="twitter:description" content="{{ article.summary }}" />
+    <meta name="twitter:image" content="{{ article.social_media_path(request) }}" />
+  {% endblock %}
+
+  <style>
+    header > hgroup > h1 {
+      font-size: 2.25rem;
+      view-transition-name: site-title;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<article>
+  <header>
+    {% from "macros/article.html.jinja" import article_hgroup %}
+    {{ article_hgroup(article, request) }}
+    {% if article.quote %}
+      <section>
+        <blockquote style="text-align: right;border-left: none">
+          {{ article.quote }}
+          <footer>
+            <cite>— {{ article.quote_author }}</cite>
+          </footer>
+        </blockquote>
+      </section>
+    {% endif %}
+  </header>
+
+  <main>
+    {% import 'macros/translations.html.jinja' as translations with context %}
+    {{ translations.translations_for(article) }}
+    {{ article.content | markdown }}
+  </main>
+
+  <footer>
+    {% if article.category %}
+    <p>
+      <strong>Category:</strong> <a href="{{ article.category.path(request) }}">{{ article.category.alias | title }}</a>
+    </p>
+    {% endif %}
+    {% if article.tags %}
+    <p>
+        <strong>Tags:</strong>
+        {% for tag in article.tags %}
+            <a href="{{ tag.path(request) }}">{{ tag.alias | title }}</a>
+        {% endfor %}
+    </p>
+    {% endif %}
+
+    <hr>
+      <a id="share-btn" class="w-100" role="button" tabindex="0" title="Share {{ article.title | striptags }} with others" href="{{ article.share_path(request) }}">
+        Share this article
+      </a>
+    <hr>
+    <div role="group">
+    {% if article.prev_article %}
+      <a class="w-50" role="button" tabindex="0" title="Permalink to {{ article.prev_article.title | striptags }}" href="{{ article.prev_article.path(request) }}">
+        Previous article<br>
+        <strong>{{article.prev_article.title}}</strong>
+      </a>
+    {% endif %}
+    {% if article.next_article %}
+      <a class="w-50" role="button" tabindex="0" title="Permalink to {{ article.next_article.title | striptags }}" href="{{ article.next_article.path(request) }}">
+          Next article<br>
+        <strong>{{article.next_article.title}}</strong>
+      </a>
+    {% endif %}
+    </div>
+    <hr>
+    {% from "macros/bio.html.jinja" import bio %}
+    {% for author in article.authors %}
+      <section>
+        {{ bio(author, request) }}
+      </section>
+    {% endfor %}
+  </footer>
+  </article>
+
+  <script>
+    function canBrowserShareData(data) {
+      if (!navigator.share || !navigator.canShare) {
+        console.log("The browser does not support the share API");
+        return false;
+      }
+
+      return navigator.canShare(data);
+    }
+
+    const button = document.querySelector("#share-btn");
+    const shareData = {
+      title: "{{ article.title | striptags }}",
+      text: "{{ article.summary }}",
+      url: "{{ article.absolute_url(request) }}"
+    };
+
+    if (canBrowserShareData(shareData)) {
+      // Listen for click events on the button to share data.
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.share(shareData);
+
+          console.log("The URL was successfully shared");
+        } catch (err) {
+          console.error(`The URL could not be shared: ${err}`);
+        }
+      });
+    }
+  </script>
+{% endblock %}

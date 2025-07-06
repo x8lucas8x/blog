@@ -1,0 +1,36 @@
+{% extends "base.html.jinja" %}
+
+{% block content %}
+
+{% block head %}
+  {{ super() }}
+  <meta property="og:title" content="{{ SITE_NAME }}" />
+  <meta property="og:description" content="{{ SITE_DESCRIPTION }}" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:creator" content="{{ AUTHOR }}" />
+  <meta name="twitter:title" content="{{ SITE_NAME }}" />
+  <meta name="twitter:description" content="{{ SITE_DESCRIPTION }}" />
+{% endblock %}
+
+{% block content_title %}
+  <h2 class="sr-only">All articles</h2>
+{% endblock %}
+
+{% for article in articles %}
+  <article>
+    <header> 
+      {% from "macros/article.html.jinja" import article_hgroup %}
+      {{ article_hgroup(article, request) }}
+    </header>
+    <section>
+      {{ article.summary | markdown }}
+    </section>
+  </article>
+{% endfor %}
+
+{% if paginator.has_other_pages %}
+    {% include 'pagination.html.jinja' %}
+{% endif %}
+
+{% endblock content %}
