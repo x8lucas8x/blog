@@ -124,6 +124,8 @@
     };
 
     if (canBrowserShareData(shareData)) {
+      button.setAttribute("href", "#");
+
       // Listen for click events on the button to share data.
       button.addEventListener("click", async () => {
         try {
