@@ -1,5 +1,5 @@
 [build]
-  command = "uv run blog generate"
+  command = "pip install uv && uv run blog generate"
   publish = "output/"
   environment = { PYTHON_VERSION = "3.13" }
 
