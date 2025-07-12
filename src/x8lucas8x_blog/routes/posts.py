@@ -3,8 +3,8 @@ import json
 from starlette.requests import Request
 from starlette.routing import Route
 
-from src.utils.env import env
-from src.utils.templates import templates
+from x8lucas8x_blog.utils.env import env
+from x8lucas8x_blog.utils.templates import templates
 
 
 async def get_article(request: Request) -> templates.TemplateResponse:

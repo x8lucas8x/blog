@@ -7,15 +7,15 @@ from starlette.requests import Request
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
-from src.caching import precache_images
-from src.data import import_data
-from src.routes.categories import routes_for_categories
-from src.routes.feeds import routes_for_feeds
-from src.routes.index import routes_for_index
-from src.routes.posts import routes_for_posts
-from src.routes.tags import routes_for_tags
-from src.utils.env import env
-from src.utils.templates import templates
+from x8lucas8x_blog.caching import precache_images
+from x8lucas8x_blog.data import import_data
+from x8lucas8x_blog.routes.categories import routes_for_categories
+from x8lucas8x_blog.routes.feeds import routes_for_feeds
+from x8lucas8x_blog.routes.index import routes_for_index
+from x8lucas8x_blog.routes.posts import routes_for_posts
+from x8lucas8x_blog.routes.tags import routes_for_tags
+from x8lucas8x_blog.utils.env import env
+from x8lucas8x_blog.utils.templates import templates
 
 
 async def not_found_index(
@@ -67,4 +67,10 @@ def run_server(port: int) -> None:
 
         for task in tasks:
             task.result()
-    uvicorn.run("src.app:app", host="127.0.0.1", port=port, log_level="info", reload=True)
+    uvicorn.run(
+        "x8lucas8x_blog.app:app",
+        host="127.0.0.1",
+        port=port,
+        log_level="info",
+        reload=True,
+    )

@@ -2,9 +2,9 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.routing import Route
 
-from src.models import Items, Paginator
-from src.utils.env import env
-from src.utils.templates import templates
+from x8lucas8x_blog.models import Items, Paginator
+from x8lucas8x_blog.utils.env import env
+from x8lucas8x_blog.utils.templates import templates
 
 
 async def get_index(request: Request) -> templates.TemplateResponse:

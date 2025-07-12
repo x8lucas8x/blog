@@ -2,8 +2,8 @@ from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 
-from src.models import Article, Author, Category, Paginator, Tag
-from src.utils.items import items
+from x8lucas8x_blog.models import Article, Author, Category, Paginator, Tag
+from x8lucas8x_blog.utils.items import items
 
 
 @dataclass

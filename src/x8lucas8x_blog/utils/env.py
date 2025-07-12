@@ -1,7 +1,7 @@
 import os
 from functools import cache
 
-from src.settings import dev, prod
+from x8lucas8x_blog.settings import dev, prod
 
 
 @cache

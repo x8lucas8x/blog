@@ -1,8 +1,8 @@
 import uvloop
 
-from src.data import import_data
-from src.images.base import generate_image
-from src.images.social_media import generate_social_media_image
+from x8lucas8x_blog.data import import_data
+from x8lucas8x_blog.images.base import generate_image
+from x8lucas8x_blog.images.social_media import generate_social_media_image
 
 
 def precache_images(executor) -> None:

@@ -28,8 +28,12 @@ dependencies = [
 [project.urls]
 Homepage = "https://x8lucas8x.com"
 
-[tool.uv]
-package = false
+[project.scripts]
+blog = "x8lucas8x_blog.main:app"
+
+[build-system]
+requires = ["uv_build>=0.7.20,<0.8.0"]
+build-backend = "uv_build"
 
 [dependency-groups]
 dev = [

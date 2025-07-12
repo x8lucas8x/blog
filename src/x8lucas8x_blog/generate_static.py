@@ -5,17 +5,18 @@ from itertools import chain
 from pathlib import Path
 
 import anyio
+import minify_html
 import uvloop
 from anyio import Path as AsyncPath
 from anyio import open_file
 from rich.progress import track
 from starlette.testclient import TestClient
 
-from src.app import app
-from src.caching import precache_images
-from src.data import import_data
-from src.utils.base import batch
-from src.utils.env import env
+from x8lucas8x_blog.app import app
+from x8lucas8x_blog.caching import precache_images
+from x8lucas8x_blog.data import import_data
+from x8lucas8x_blog.utils.base import batch
+from x8lucas8x_blog.utils.env import env
 
 MINIFIABLE_EXTENSIONS = frozenset((".html", ".css", ".js", ".json", ".xml"))
 
@@ -114,7 +115,7 @@ async def generate_static(output_paths) -> None:
             async for task in asyncio.as_completed(output_path_by_task.keys()):
                 output_path_file = output_path_by_task[task]
                 # Content will require less memory than text.
-                content = task.result().content
+                content = task.result().text
                 tg.create_task(write_file(output_path_file, content))
 
 
@@ -124,10 +125,10 @@ async def create_dir_if_unavailable(output_path_dir: AsyncPath) -> None:
 
 
 async def write_file(output_path_file: AsyncPath, content: str) -> None:
-    # if output_path_file.suffix in MINIFIABLE_EXTENSIONS:
-    #    content = minify_html.minify(content, minify_css=True, minify_js=False)
+    if output_path_file.suffix in MINIFIABLE_EXTENSIONS:
+        content = minify_html.minify(content, minify_css=True, minify_js=False)
 
-    async with await open_file(output_path_file, "wb") as file:
+    async with await open_file(output_path_file, "wt") as file:
         await file.write(content)
 
 
