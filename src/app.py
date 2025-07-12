@@ -1,28 +1,29 @@
-import contextlib
-import uvicorn
-import uvloop
 import concurrent
+import contextlib
 
+import uvicorn
 from starlette.applications import Starlette
-from starlette.routing import Route, Mount
-from starlette.staticfiles import StaticFiles
 from starlette.requests import Request
+from starlette.routing import Mount, Route
+from starlette.staticfiles import StaticFiles
 
-from src.data import import_data
 from src.caching import precache_images
-from src.routes.index import routes_for_index
-from src.routes.feeds import routes_for_feeds
+from src.data import import_data
 from src.routes.categories import routes_for_categories
+from src.routes.feeds import routes_for_feeds
+from src.routes.index import routes_for_index
 from src.routes.posts import routes_for_posts
 from src.routes.tags import routes_for_tags
-from src.utils.templates import templates
 from src.utils.env import env
+from src.utils.templates import templates
 
 
-async def not_found_index(request: Request, exc: Exception | None=None) -> templates.TemplateResponse:
+async def not_found_index(
+    request: Request, exc: Exception | None = None
+) -> templates.TemplateResponse:
     return templates.TemplateResponse(
         request,
-        '404.html.jinja',
+        "404.html.jinja",
         context=dict(
             request=request,
             **env(),
@@ -39,12 +40,14 @@ async def lifespan(app):
 
 
 routes = [
-    Mount('/static', StaticFiles(directory='public/static', check_dir=True), name="static"),
+    Mount(
+        "/static", StaticFiles(directory="public/static", check_dir=True), name="static"
+    ),
     Mount("/posts", routes=routes_for_posts),
     Mount("/categories", routes=routes_for_categories),
     Mount("/tags", routes=routes_for_tags),
     Mount("/feeds", routes=routes_for_feeds),
-    Route('/404/', not_found_index, name="404_detail"),
+    Route("/404/", not_found_index, name="404_detail"),
     Mount("", routes=routes_for_index),
 ]
 
@@ -53,7 +56,9 @@ exception_handlers = {
     404: not_found_index,
 }
 
-app = Starlette(debug=True, routes=routes, lifespan=lifespan, exception_handlers=exception_handlers)
+app = Starlette(
+    debug=True, routes=routes, lifespan=lifespan, exception_handlers=exception_handlers
+)
 
 
 def run_server(port: int) -> None:

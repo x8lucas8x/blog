@@ -1,19 +1,16 @@
-import uvloop
 import asyncio
-import minify_html
 import concurrent
-import anyio
-import typer
-
-from typing import Generator
-from pathlib import Path
-from anyio import open_file, Path as AsyncPath
+from collections.abc import Generator
 from itertools import chain
-from httpx import AsyncClient, ASGITransport
-from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.progress import track
+from pathlib import Path
 
+import anyio
+import uvloop
+from anyio import Path as AsyncPath
+from anyio import open_file
+from rich.progress import track
 from starlette.testclient import TestClient
+
 from src.app import app
 from src.caching import precache_images
 from src.data import import_data
@@ -38,12 +35,15 @@ def output_paths() -> Generator[tuple[str, str], None, None]:
         app.url_path_for("search_index_detail"),
         app.url_path_for("category_list"),
         app.url_path_for("tag_list"),
-        app.url_path_for("404_detail")
+        app.url_path_for("404_detail"),
     ]:
         yield str(url)
 
     for url in chain(
-        [app.url_path_for("index_list_by_page", page=page) for page in range(1, data.num_pages["index"] + 1)],
+        [
+            app.url_path_for("index_list_by_page", page=page)
+            for page in range(1, data.num_pages["index"] + 1)
+        ],
         [
             app.url_path_for("category_detail_by_page", category=category, page=page)
             for category in data.articles_by_category.keys()
@@ -54,14 +54,35 @@ def output_paths() -> Generator[tuple[str, str], None, None]:
             for tag in data.articles_by_tag.keys()
             for page in range(1, data.num_pages["tag"][tag] + 1)
         ],
-        [app.url_path_for("article_detail", slug=slug) for slug in data.articles_by_slug.keys()],
-        [app.url_path_for("article_share_detail", slug=slug) for slug in data.articles_by_slug.keys()],
-        [app.url_path_for("category_detail", category=category) for category in data.articles_by_category.keys()],
+        [
+            app.url_path_for("article_detail", slug=slug)
+            for slug in data.articles_by_slug.keys()
+        ],
+        [
+            app.url_path_for("article_share_detail", slug=slug)
+            for slug in data.articles_by_slug.keys()
+        ],
+        [
+            app.url_path_for("category_detail", category=category)
+            for category in data.articles_by_category.keys()
+        ],
         [app.url_path_for("tag_detail", tag=tag) for tag in data.articles_by_tag.keys()],
-        [app.url_path_for("category_rss_feed", category=category) for category in data.articles_by_category.keys()],
-        [app.url_path_for("category_atom_feed", category=category) for category in data.articles_by_category.keys()],
-        [app.url_path_for("tag_rss_feed", tag=tag) for tag in data.articles_by_tag.keys()],
-        [app.url_path_for("tag_atom_feed", tag=tag) for tag in data.articles_by_tag.keys()],
+        [
+            app.url_path_for("category_rss_feed", category=category)
+            for category in data.articles_by_category.keys()
+        ],
+        [
+            app.url_path_for("category_atom_feed", category=category)
+            for category in data.articles_by_category.keys()
+        ],
+        [
+            app.url_path_for("tag_rss_feed", tag=tag)
+            for tag in data.articles_by_tag.keys()
+        ],
+        [
+            app.url_path_for("tag_atom_feed", tag=tag)
+            for tag in data.articles_by_tag.keys()
+        ],
     ):
         yield str(url)
 
@@ -74,7 +95,7 @@ async def generate_static(output_paths) -> None:
     limiter.total_tokens = 100
     output_path_by_task = dict()
 
-    # Not using the AsyncClient as it won't setup the lifespan context. 
+    # Not using the AsyncClient as it won't setup the lifespan context.
     with TestClient(app, base_url=env()["SITE_URL"]) as client:
         async with asyncio.TaskGroup() as tg:
             for url in output_paths:
@@ -103,10 +124,10 @@ async def create_dir_if_unavailable(output_path_dir: AsyncPath) -> None:
 
 
 async def write_file(output_path_file: AsyncPath, content: str) -> None:
-    #if output_path_file.suffix in MINIFIABLE_EXTENSIONS:
+    # if output_path_file.suffix in MINIFIABLE_EXTENSIONS:
     #    content = minify_html.minify(content, minify_css=True, minify_js=False)
 
-    async with await open_file(output_path_file, 'wb') as file:
+    async with await open_file(output_path_file, "wb") as file:
         await file.write(content)
 
 
@@ -121,11 +142,10 @@ def run_generate_static() -> None:
     with concurrent.futures.ProcessPoolExecutor() as executor:
         tasks.extend(precache_images(executor))
 
-        for i, chunk in enumerate(batch(output_paths(), 5)):
+        for chunk in batch(output_paths(), 5):
             total_paths += 5
             task = executor.submit(generate_static_chunk, chunk)
             tasks.append(task)
 
         for task in track(tasks, description="Generating..."):
             task.result()
-

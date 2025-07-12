@@ -1,6 +1,6 @@
 from datetime import date
 
-AUTHOR = 'Lucas Lira Gomes'
+AUTHOR = "Lucas Lira Gomes"
 COPYRIGHT = [
     f"© {date.today().year} Lucas Lira Gomes",
     "We copyright",
@@ -15,5 +15,3 @@ MENU_ITEMS = []
 DISPLAY_PAGES_ON_MENU = False
 DISPLAY_CATEGORIES_ON_MENU = False
 MAX_SEARCH_RESULTS = 10
-
-

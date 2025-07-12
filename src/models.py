@@ -1,9 +1,8 @@
 import urllib.parse
-
-from typing import Any
-from datetime import datetime
-from dataclasses import dataclass
 from collections import UserList
+from dataclasses import dataclass
+from datetime import datetime
+
 from starlette.requests import Request
 
 
@@ -37,10 +36,12 @@ class Author:
 
     @property
     def avatar_local_path(self) -> str:
-        return f"./public/static/avatars/{self.name.lower().replace(" ", "")}.jpeg"
+        return f"./public/static/avatars/{self.name.lower().replace(' ', '')}.jpeg"
 
     def avatar_path(self, request: Request) -> str:
-        return request.url_for("static", path=f"/avatars/{self.name.lower().replace(" ", "")}.jpeg").path
+        return request.url_for(
+            "static", path=f"/avatars/{self.name.lower().replace(' ', '')}.jpeg"
+        ).path
 
 
 @dataclass
@@ -66,14 +67,14 @@ class Article(Item):
     category: list[Category]
     tags: list[Tag]
     authors: list[Author]
-    quote: str=None
-    quote_author: str=None
-    draft: bool=False
-    prev_article: Item | None=None
-    next_article: Item | None=None
+    quote: str = None
+    quote_author: str = None
+    draft: bool = False
+    prev_article: Item | None = None
+    next_article: Item | None = None
 
     def absolute_url(self, request: Request) -> str:
-        return str(request.url_for("article_detail", slug=self.slug))    
+        return str(request.url_for("article_detail", slug=self.slug))
 
     def path(self, request: Request) -> str:
         return request.url_for("article_detail", slug=self.slug).path
@@ -82,30 +83,36 @@ class Article(Item):
         return request.url_for("article_share_detail", slug=self.slug).path
 
     def social_share_path(self, platform: str, request: Request) -> str:
-        absolute_url = urllib.parse.quote_plus(bytes(self.absolute_url(request), encoding="utf-8"))
+        absolute_url = urllib.parse.quote_plus(
+            bytes(self.absolute_url(request), encoding="utf-8")
+        )
         title = urllib.parse.quote_plus(bytes(self.title, encoding="utf-8"))
         text = urllib.parse.quote_plus(bytes(self.summary[:50].strip(), encoding="utf-8"))
-        
+
         share_url = ""
-        
+
         match platform:
-            case 'facebook':
+            case "facebook":
                 share_url = f"https://www.facebook.com/sharer/sharer.php?u={absolute_url}"
-            case 'twitter':
-                share_url = f"https://twitter.com/intent/tweet?url={absolute_url}&text={title}"
-            case 'linkedin':
-                share_url = f"https://www.linkedin.com/sharing/share-offsite/?url={absolute_url}"
-            case 'whatsapp':
+            case "twitter":
+                share_url = (
+                    f"https://twitter.com/intent/tweet?url={absolute_url}&text={title}"
+                )
+            case "linkedin":
+                share_url = (
+                    f"https://www.linkedin.com/sharing/share-offsite/?url={absolute_url}"
+                )
+            case "whatsapp":
                 share_url = f"https://wa.me/?text={title} {absolute_url}"
-            case 'telegram':
+            case "telegram":
                 share_url = f"https://t.me/share/url?url={absolute_url}&text={title}"
-            case 'reddit':
+            case "reddit":
                 share_url = f"https://reddit.com/submit?url={absolute_url}&title={title}"
-            case 'pinterest':
+            case "pinterest":
                 share_url = f"https://pinterest.com/pin/create/a/?url={absolute_url}&description={title}"
-            case 'email':
+            case "email":
                 share_url = f"mailto:?subject={title}&body={text}%20{absolute_url}"
-        
+
         return share_url
 
 
@@ -152,7 +159,6 @@ class Paginator:
         return request.url_for(f"{self.route_name}_by_page", **path_params).path
 
     def prev_page_path(self, request: Request) -> str:
-
         if self.prev_page == 1:
             return self.first_page_path(request)
         else:
@@ -171,9 +177,8 @@ class Paginator:
 
     def items_for_page(self) -> list[Item]:
         index = (self.current_page - 1) * self.items_per_page
-        return self.items[index:index + self.items_per_page]
+        return self.items[index : index + self.items_per_page]
 
 
 class Items(UserList):
     data: list[Item]
-

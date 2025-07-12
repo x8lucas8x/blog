@@ -1,16 +1,13 @@
-import uvloop
-import asyncio
-
 from collections import defaultdict
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
 
-from src.models import Items, Tag, Category, Article, Paginator, Author
+from src.models import Article, Author, Category, Paginator, Tag
 from src.utils.items import items
 
 
 @dataclass
-class Data():
+class Data:
     articles_by_slug: dict[str, Article]
     articles_by_category: dict[Category, list[Article]]
     articles_by_tag: dict[Tag, list[Article]]
@@ -27,10 +24,18 @@ async def import_data() -> Data:
         num_pages={},
     )
 
-    async for (metadata, content) in items():
+    async for metadata, content in items():
         category = Category(metadata["category"])
-        tags = [Tag(tag) for tag in metadata["tags"]] if isinstance(metadata["tags"], list) else [Tag(metadata["tags"])]
-        authors = [Author(name=author) for author in metadata["authors"]] if isinstance(metadata["authors"], list) else [Author(metadata["author"])]
+        tags = (
+            [Tag(tag) for tag in metadata["tags"]]
+            if isinstance(metadata["tags"], list)
+            else [Tag(metadata["tags"])]
+        )
+        authors = (
+            [Author(name=author) for author in metadata["authors"]]
+            if isinstance(metadata["authors"], list)
+            else [Author(metadata["author"])]
+        )
         article = Article(
             **{
                 **metadata,
@@ -38,7 +43,9 @@ async def import_data() -> Data:
                 "tags": tags,
                 "category": category,
                 "created_date": datetime.fromisoformat(metadata["created_date"]),
-                "updated_date": datetime.fromisoformat(metadata["updated_date"]) if "update_date" in metadata else None,
+                "updated_date": datetime.fromisoformat(metadata["updated_date"])
+                if "update_date" in metadata
+                else None,
                 "summary": content[:120].strip() + "...",
                 "content": content,
             }
@@ -47,9 +54,12 @@ async def import_data() -> Data:
         result.articles_by_slug[metadata["slug"]] = article
 
     prev_article = None
-    next_article = None
 
-    for article in sorted(result.articles_by_slug.values(), key=lambda article: article.created_date, reverse=True):
+    for article in sorted(
+        result.articles_by_slug.values(),
+        key=lambda article: article.created_date,
+        reverse=True,
+    ):
         if prev_article:
             prev_article.next_article = article
             article.prev_article = prev_article

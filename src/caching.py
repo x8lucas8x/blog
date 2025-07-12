@@ -11,7 +11,9 @@ def precache_images(executor) -> None:
 
     tasks.append(
         executor.submit(
-            generate_image, image_path="./public/static/icons/icon.svg", output_path=f"public/static/icons/icon.ico",
+            generate_image,
+            image_path="./public/static/icons/icon.svg",
+            output_path="public/static/icons/icon.ico",
         )
     )
 
@@ -21,7 +23,7 @@ def precache_images(executor) -> None:
         executor.submit(
             generate_social_media_image,
             title="Lucas' Refuge",
-            output_path=f"public/static/social_media/default.png",
+            output_path="public/static/social_media/default.png",
             background_path=default_social_media_background_path,
             title_font_path="public/static/fonts/Anton-Regular.ttf",
             quote_font_path="public/static/fonts/Anton-Regular.ttf",
@@ -30,12 +32,12 @@ def precache_images(executor) -> None:
 
     for x in [48, 72, 96, 144, 180, 192, 256, 384, 512]:
         tasks.append(
-        executor.submit(
+            executor.submit(
                 generate_image,
                 width=x,
                 height=x,
                 image_path="./public/static/icons/icon.svg",
-                output_path=f"public/static/icons/icon-{x}x{x}.png"
+                output_path=f"public/static/icons/icon-{x}x{x}.png",
             )
         )
 

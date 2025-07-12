@@ -1,9 +1,7 @@
 import os
-
 from functools import cache
 
-from src.settings import dev
-from src.settings import prod
+from src.settings import dev, prod
 
 
 @cache
