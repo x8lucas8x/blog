@@ -1,8 +1,14 @@
 [build]
-  command = "pip install uv && uv run blog generate"
+  command = "curl -LsSf https://astral.sh/uv/install.sh | sh ; uv run blog generate"
   publish = "output/"
   environment = { PYTHON_VERSION = "3.13" }
 
+# Redirects from old blog
+[[redirects]]
+  from = "/:slug"
+  to = "/posts/:slug/"
+
+# Catch all 404s
 [[redirects]]
   from = "/*"
   to = "/404/"
