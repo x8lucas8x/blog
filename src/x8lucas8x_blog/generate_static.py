@@ -9,6 +9,7 @@ import minify_html
 import uvloop
 from anyio import Path as AsyncPath
 from anyio import open_file
+from httpx import Response
 from rich.progress import track
 from starlette.testclient import TestClient
 
@@ -114,9 +115,8 @@ async def generate_static(output_paths) -> None:
         async with asyncio.TaskGroup() as tg:
             async for task in asyncio.as_completed(output_path_by_task.keys()):
                 output_path_file = output_path_by_task[task]
-                # Content will require less memory than text.
-                content = task.result().text
-                tg.create_task(write_file(output_path_file, content))
+                response: Response = task.result()
+                tg.create_task(write_file(output_path_file, response))
 
 
 async def create_dir_if_unavailable(output_path_dir: AsyncPath) -> None:
@@ -124,11 +124,19 @@ async def create_dir_if_unavailable(output_path_dir: AsyncPath) -> None:
         await output_path_dir.mkdir(parents=True, exist_ok=True)
 
 
-async def write_file(output_path_file: AsyncPath, content: str) -> None:
+async def write_file(output_path_file: AsyncPath, response: Response) -> None:
     if output_path_file.suffix in MINIFIABLE_EXTENSIONS:
+        # Text based files.
+        file_mode = "wt"
+        content = response.text
+        # Minifying JS fails.
         content = minify_html.minify(content, minify_css=True, minify_js=False)
+    else:
+        # Images and other files.
+        file_mode = "wb"
+        content = response.content
 
-    async with await open_file(output_path_file, "wt") as file:
+    async with await open_file(output_path_file, file_mode) as file:
         await file.write(content)
 
 
