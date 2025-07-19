@@ -82,15 +82,15 @@
         Share this article
       </a>
     <hr>
-    <div role="group">
+    <div role="group" class="column-2-toolbar">
     {% if article.prev_article %}
-      <a class="w-50" role="button" tabindex="0" title="Permalink to {{ article.prev_article.title | striptags }}" href="{{ article.prev_article.path(request) }}">
+      <a role="button" tabindex="0" title="Permalink to {{ article.prev_article.title | striptags }}" href="{{ article.prev_article.path(request) }}">
         Previous article<br>
         <strong>{{article.prev_article.title}}</strong>
       </a>
     {% endif %}
     {% if article.next_article %}
-      <a class="w-50" role="button" tabindex="0" title="Permalink to {{ article.next_article.title | striptags }}" href="{{ article.next_article.path(request) }}">
+      <a role="button" tabindex="0" title="Permalink to {{ article.next_article.title | striptags }}" href="{{ article.next_article.path(request) }}">
           Next article<br>
         <strong>{{article.next_article.title}}</strong>
       </a>

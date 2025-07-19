@@ -63,12 +63,12 @@ article > main {
 }
 
 .sr-only:not(:focus):not(:active) {
-    clip: rect(0 0 0 0); 
+    clip: rect(0 0 0 0);
     clip-path: inset(50%);
     height: 1px;
     overflow: hidden;
     position: absolute;
-    white-space: nowrap; 
+    white-space: nowrap;
     width: 1px;
   }
 
@@ -87,12 +87,13 @@ article > main {
   grid-template-columns: 1fr;
 }
 
-.w-50 {
-  width: 50%;
-}
-
 .w-100 {
   width: 100%;
+}
+
+.column-2-toolbar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .column-3 {
