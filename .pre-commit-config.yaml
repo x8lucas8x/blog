@@ -27,11 +27,3 @@ repos:
         args: ["--fix", "--config", "pyproject.toml"]
       - id: ruff-format
         args: ["--config", "pyproject.toml"]
-
-  - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.18.1
-    hooks:
-      - id: markdownlint-cli2
-        args: ["--config", ".markdownlint-cli2.yaml"]
-        # https://github.com/DavidAnson/markdownlint-cli2/issues/437
-        language_version: 22.10.0
