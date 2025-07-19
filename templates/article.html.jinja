@@ -107,6 +107,55 @@
   </article>
 
   <script>
+    function isMobile() {
+      // Method 1: Check for touch capability and screen size
+      const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const hasSmallScreen = window.innerWidth <= 768;
+
+      // Method 2: User Agent string detection (fallback)
+      const mobileUserAgents = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i,
+        /Opera Mini/i,
+        /IEMobile/i,
+        /Mobile/i,
+        /Tablet/i
+      ];
+
+      const userAgentMatch = mobileUserAgents.some(regex =>
+        navigator.userAgent.match(regex)
+      );
+
+      // Method 3: CSS Media Query detection (most reliable)
+      let mediaQueryMatch = false;
+      if (window.matchMedia) {
+        mediaQueryMatch = window.matchMedia('(max-width: 768px)').matches ||
+                        window.matchMedia('(pointer: coarse)').matches ||
+                        window.matchMedia('(hover: none)').matches;
+      }
+
+      // Method 4: Platform detection
+      const mobilePlatforms = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+      const platformMatch = mobilePlatforms.test(navigator.platform || navigator.userAgentData?.platform || '');
+
+      // Method 5: Check for mobile-specific properties
+      const mobileProperties = 'orientation' in window ||
+                              navigator.userAgentData?.mobile === true ||
+                              /Mobi|Android/i.test(navigator.userAgent);
+
+      // Combine all methods - return true if any indicate mobile
+      return mediaQueryMatch ||
+            (hasTouchScreen && hasSmallScreen) ||
+            userAgentMatch ||
+            platformMatch ||
+            mobileProperties;
+    }
+
     function canBrowserShareData(data) {
       if (!navigator.share || !navigator.canShare) {
         console.log("The browser does not support the share API");
@@ -119,11 +168,11 @@
     const button = document.querySelector("#share-btn");
     const shareData = {
       title: "{{ article.title | striptags }}",
-      text: "{{ article.summary }}",
+      text: "{{ article.summary.replace("\n", " ") }}",
       url: "{{ article.absolute_url(request) }}"
     };
 
-    if (canBrowserShareData(shareData)) {
+    if (isMobile() && canBrowserShareData(shareData)) {
       button.setAttribute("href", "#");
 
       // Listen for click events on the button to share data.
