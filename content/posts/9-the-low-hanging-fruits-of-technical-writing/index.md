@@ -26,13 +26,13 @@ That's what I call the common sense – rules to live by. A set of principles th
 Whenever I see an introduction section of a technical document, I get ready for three things. They are: the context, the problem, and the solution's outcome. All in this precise order. A failure in that regard, will likely mean that your reader will have to skim back and forth in your text, trying to figure out the missing information. However, just like a code full of goto expressions can be a context switch nightmare. This isn't far, either. Being predictable in technical text is good.
 
 ### Helping others to help you
-If you write clear, concise and well-written text – the trifecta of writing – you will have less trouble when it comes to the long-lasting peer-review rounds. While that is still truth, I want to talk about an often overlooked aspect: the peer-review round itself. 
+If you write clear, concise and well-written text – the trifecta of writing – you will have less trouble when it comes to the long-lasting peer-review rounds. While that is still truth, I want to talk about an often overlooked aspect: the peer-review round itself.
 
 How many times have I seen engineers reply to a comment on their text, stating that they have explained whatever the commentor is asking in section X? That's it. They think, they already explained that well somewhere, and the commentor might not have been paying attention.
 
 Let me tell you one truth: when I see a comment like this, I think, oh well. I'll have a look later – more likely some other day. And there it goes, another day in which you are likely blocked waiting for a response of mine, which could be prevented, if you had put the effort to summarize why my question isn't a problem. And then definitely mentioned that I can find more on section X.
 
-Why would a reviewer behave like this? Well, because that someone has other stuff to care about. Plus, there is no downside in replying later. So, you should probably consider this dynamic, next time you make it hard for anyone else to help you. For more on the topic of getting help, there is a previous post of mine, which you might find useful: https://x8lucas8x.com/how-can-i-help-you.
+Why would a reviewer behave like this? Well, because that someone has other stuff to care about. Plus, there is no downside in replying later. So, you should probably consider this dynamic, next time you make it hard for anyone else to help you. For more on the topic of getting help, there is a previous post of mine, which you might find useful: [How can I help you?](https://x8lucas8x.com/posts/how-can-i-help-you)
 
 ### Out of breath
 If there is something annoying in text, it is to be forced to stop midway in a sentence: to catch breath. Because the writer thought it was fine to amass forty-plus words together in a single phrase – often with little to no punctuation. Try reading the following sentence to have a sense of what I mean:
@@ -63,7 +63,7 @@ Why write that? When you can simply write:
 
 > We can support you.
 
-Ha, you don't need to be so extreme and that's likely omitting relevant details, so how about: 
+Ha, you don't need to be so extreme and that's likely omitting relevant details, so how about:
 
 > Despite the effort that team X has and might still require, we can start supporting you in that, provided we agree upon some conditions.
 
@@ -86,7 +86,7 @@ Time is a very precious resource – especially when we are talking about the ti
 When you do so, understand that it won't be perfect either, but good enough is good enough. Take this very article, for instance. The first time I've published it, even though I had someone proofreading it, I could still find a few things to correct. Furthermore, two days after having it published, a fellow at work asked me if I wanted feedback about the article, which of course I did want. As part of the feedback, though, there were still some grammar mistakes. Is that the end of the world? No, as long as you keep your conscience clear by knowing you've done your part – to the best of your knowledge.
 
 ### Tools of the trade
-Don't shy away from using grammar checkers. It would be stubborn of you to have aid and, yet, to ignore it. In this spirit, I'd greatly recommend https://languagetool.org/ or similar alternatives (e.g., https://grammarly.com, https://hemingwayapp.com/). I've been using LanguageTool's premium plan for at least six months, since I started being more serious about blogging, and it has helped. Don't get me wrong – they're no panacea, just like linters. Bad text and code are still bad, after all. Unfortunately, there is no tool in the word that can help you with that. However, it's nice to have something suggesting you synonyms to prevent word overuse, fixing basic typos, providing you alternatives for far-fetched expressions, and so on.
+Don't shy away from using grammar checkers. It would be stubborn of you to have aid and, yet, to ignore it. In this spirit, I'd greatly recommend [Language Tool] or similar alternatives (e.g., [Grammarly], [Hemingway App]). I've been using LanguageTool's premium plan for at least six months, since I started being more serious about blogging, and it has helped. Don't get me wrong – they're no panacea, just like linters. Bad text and code are still bad, after all. Unfortunately, there is no tool in the word that can help you with that. However, it's nice to have something suggesting you synonyms to prevent word overuse, fixing basic typos, providing you alternatives for far-fetched expressions, and so on.
 
 ## The hard things
 This is grammar and style territory. Many people hate it, but just like you can't write idiomatic code without mastering a programming language's syntax, you won't be able to write elegantly without understanding its building blocks.
@@ -98,8 +98,8 @@ Oh, I understand we hate to repeat ourselves in text. Pronouns are there to prev
 
 When I see that personal pronoun (i.e., they), I know someone is making me have the trouble of figuring out, who or what that “they” might be. Is it about the results? Can it be about the experiments? Or is that person talking about leadership? Who knows? That will require understanding the context, which might mean having to go through a whole paragraph and then get back – until that's figured out. All that could be avoided, had the person avoided a dubious pronoun. Such as on:
 
-> As a consequence of the company's positive results, a few longer-term experiments were approved by leadership. The results … \
-> As a consequence of the company's positive results, a few longer-term experiments were approved by leadership. The experiments … \
+> As a consequence of the company's positive results, a few longer-term experiments were approved by leadership. The results …<br>
+> As a consequence of the company's positive results, a few longer-term experiments were approved by leadership. The experiments …<br>
 > As a consequence of the company's positive results, a few longer-term experiments were approved by leadership. The leadership …
 
 You don't need to reuse the precise noun (e.g., results, experiments, leadership), as the examples above. In fact, any synonym would have worked. Additionally, this doesn't mean you shouldn't use pronouns in your technical writing. The takeaway is that you should avoid them, if clarity demands. To leave to context, that which could be clear from the get go, is no way of treating your reader.  
@@ -111,8 +111,8 @@ If there is one thing that is just annoying, is to have to say something like:
 
 Don't do that. If you have an image, table, or code sample in a technical document, please add a label under it, which can go like:
 
-> Image C1.1: Diagram of the current architecture.\
-> Table C2.1: Descriptive statistics of the response timings of endpoint X.\
+> Image C1.1: Diagram of the current architecture.<br>
+> Table C2.1: Descriptive statistics of the response timings of endpoint X.<br>
 > Code Sample C3.1: Example of how the system will be tested.
 
 Now, your readers can just say:
@@ -168,7 +168,7 @@ Now look how much better it is when I throw a few conjunctions here and there:
 
 > Python is a powerful language. Moreover, it is simple, however, some bits of it, such as metaclasses, can be hard to grasp. Therefore, it might be better not to focus on it as a newcomer. Even though it might be a complicated feature of Python, many popular frameworks use it under the hood, such as sqlalchemy's model and Django's models.
 
-Do you see how “moreover” (addition relation), “however” (opposition/contrast relation), “therefore” (cause/effect/result relation) and “even though” (opposition/contrast relation) just made it clearer, what was the sort of relation those phrases had? So don't shy away from them. Ah, and please keep in mind your compound versions (e.g., neither … nor …, either … or …, not only … but also …, both … and …). Anyway, you can find more examples of conjunctions on https://www.fluentu.com/blog/english/english-conjunctions/, https://www.grammarly.com/blog/conjunctions/ and https://eslforums.com/list-of-conjunctions/. Before closing this topic, let me warn you that conjunctions for the sake of using them, isn't necessarily better – especially if they are poorly employed. See the following redacted example, which I've reviewed recently as part of a design doc:
+Do you see how “moreover” (addition relation), “however” (opposition/contrast relation), “therefore” (cause/effect/result relation) and “even though” (opposition/contrast relation) just made it clearer, what was the sort of relation those phrases had? So don't shy away from them. Ah, and please keep in mind your compound versions (e.g., neither … nor …, either … or …, not only … but also …, both … and …). Anyway, you can find more examples of conjunctions on <https://7esl.com/conjunctions-list/>, <https://www.grammarly.com/blog/conjunctions/> and <https://eslforums.com/list-of-conjunctions/>. Before closing this topic, let me warn you that conjunctions for the sake of using them, isn't necessarily better – especially if they are poorly employed. See the following redacted example, which I've reviewed recently as part of a design doc:
 
 > The only considerable cost is the cost of Service A. We were able to get the following pricing scheme from Product B and we have signed up for 3 parallel processes for now and later we will evaluate if we need more parallel processes.
 
@@ -185,7 +185,7 @@ Do you see how that just feels neater?
 ### Have a style guide of choice
 I honestly don't care if you write color or colour, as long as you stick to a version of English. That's the same attitude I have towards the indentation you choose for your C code (e.g., GNU, K&R, Allman) or the linter rules you are going to apply. The important thing is to adopt one style – to stay consistent.
 
-Likewise, there is no such a thing as an ultimate style guide for writing. You can decide to adopt any among https://developers.google.com/style, https://learn.microsoft.com/en-us/style-guide/welcome/, https://www.chicagomanualofstyle.org/home.html, and https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/University%20of%20Oxford%20Style%20Guide.pdf – the latter being my favorite. What is indispensable, is that you adhere to one.
+Likewise, there is no such a thing as an ultimate style guide for writing. You can decide to adopt any among [Google's Developer Documentation Style Guide], [Microsoft's Writing Style Guide], [The Chicago Manual of Style], and the [University of Oxford Style Guide] – the latter being my favorite. What is indispensable, is that you adhere to one.
 
 Those will teach you, for instance, that there are way more than just commas (,) and dots (.) out there. More importantly, they will show you when to use what and when. Familiarize yourself with your style guide now. But you can reply me:
 
@@ -195,8 +195,16 @@ My friend, if you can't make yourself available for going through the thirty sli
 
 ## Conclusion
 
-Writing is one of those skills that if you think you are good at it, that's because you don't care enough to keep growing. Like coding, it can take a whole life. You might realize you need to delve deep and get yourself a good grammar book. That might be particularly useful for native speakers, which often have a sense for what is right or wrong, but often can't put on a finger why. 
+Writing is one of those skills that if you think you are good at it, that's because you don't care enough to keep growing. Like coding, it can take a whole life. You might realize you need to delve deep and get yourself a good grammar book. That might be particularly useful for native speakers, which often have a sense for what is right or wrong, but often can't put on a finger why.
 
 Finally, if writing ever becomes a passion, like it is for me, you might find yourself reading about how to write. Last year I've felt that need by reading “On Writing Well” by William Zinsser, which I'd greatly recommend.
 
 [^1]: Fun fact: Laconic is an adjective that refers to Laconia. A region in Greece most known for residing Sparta – the famed war-oriented city state of Ancient Greece. Less known is however the fact that Spartans valued being “laconic”.
+
+[Language Tool]: https://languagetool.org/
+[Grammarly]: https://grammarly.com/
+[Hemingway App]: https://hemingwayapp.com/
+[Google's Developer Documentation Style Guide]: https://developers.google.com/style
+[Microsoft's Writing Style Guide]: https://learn.microsoft.com/en-us/style-guide/welcome/>
+[The Chicago Manual of Style]: https://www.chicagomanualofstyle.org/home.html
+[University of Oxford Style Guide]: https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/University%20of%20Oxford%20Style%20Guide.pdf
