@@ -28,6 +28,7 @@ def output_paths() -> Generator[tuple[str, str], None, None]:
     for url in [
         app.url_path_for("index_list"),
         app.url_path_for("robots_detail"),
+        app.url_path_for("llms_detail"),
         app.url_path_for("sitemap_detail"),
         app.url_path_for("manifest_detail"),
         app.url_path_for("all_rss_feed"),

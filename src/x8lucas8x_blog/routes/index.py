@@ -39,6 +39,17 @@ async def get_robots(request: Request) -> templates.TemplateResponse:
     )
 
 
+async def get_llms(request: Request) -> templates.TemplateResponse:
+    return templates.TemplateResponse(
+        request,
+        "llms.txt.jinja",
+        context=dict(
+            request=request,
+            **env(),
+        ),
+    )
+
+
 async def get_sitemap(request: Request) -> templates.TemplateResponse:
     return templates.TemplateResponse(
         request,
@@ -122,6 +133,7 @@ async def get_search_index(request: Request) -> JSONResponse:
 routes_for_index = [
     Route("/", get_index, name="index_list"),
     Route("/robots.txt", get_robots, name="robots_detail"),
+    Route("/llms.txt", get_llms, name="llms_detail"),
     Route("/sitemap.xml", get_sitemap, name="sitemap_detail"),
     Route("/manifest.json", get_manifest, name="manifest_detail"),
     Route("/menu/", get_menu, name="menu_detail"),
